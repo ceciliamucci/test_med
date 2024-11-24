@@ -99,3 +99,14 @@
 .book-button:hover {
     background-color: #0056b3;
 }
+
+.search-results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.doctor-card-container {
+    margin: 10px;
+}

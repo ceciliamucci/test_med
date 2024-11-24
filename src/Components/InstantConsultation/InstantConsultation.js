@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './InstantConsultation.css';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FindDoctorSearchIC from '../FindDoctorSearchIC/FindDoctorSearchIC';
-import DoctorCardIC from '../DoctorCardIC/DoctorCardIC';
+import DoctorCard from '../DoctorCard/DoctorCard';
 
 const InstantConsultation = () => {
-    const [searchParams] = useSearchParams();
     const [doctors, setDoctors] = useState([]);
-    const [filteredDoctors, setFilteredDoctors] = useState([]);
-    const [isSearched, setIsSearched] = useState(false);
     const [appointments, setAppointments] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -16,33 +13,30 @@ const InstantConsultation = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const navigate = useNavigate();
 
-    const getDoctorsDetails = useCallback(() => {
-        fetch('https://api.npoint.io/9a5543d36f1460da2f63')
-        .then(res => res.json())
-        .then(data => {
-            setDoctors(data);
-            if (searchParams.get('speciality')) {
-                const filtered = data.filter(doctor => doctor.speciality.toLowerCase() === searchParams.get('speciality').toLowerCase());
-                setFilteredDoctors(filtered);
-                setIsSearched(true);
-            } else {
-                setFilteredDoctors([]);
-                setIsSearched(false);
-            }
-        })
-        .catch(err => console.log(err));
-    }, [searchParams]);
-
-    const handleSearch = (searchText) => {
-        if (searchText === '') {
-            setFilteredDoctors([]);
-            setIsSearched(false);
-        } else {
-            const filtered = doctors.filter(doctor => doctor.speciality.toLowerCase().includes(searchText.toLowerCase()));
-            setFilteredDoctors(filtered);
-            setIsSearched(true);
-        }
-    };
+    // Sample doctor data
+    const doctorData = [
+        {
+            name: "Dr. Jiao Yang",
+            speciality: "Dentist",
+            experience: 9,
+            ratings: "⭐⭐⭐⭐⭐",
+            image: "src/doc-img1.png" // Replace with actual image path
+        },
+        {
+            name: "Dr. Denis Raj",
+            speciality: "Dentist",
+            experience: 24,
+            ratings: "⭐⭐⭐⭐⭐",
+            image: "src/doc-img2.png" // Replace with actual image path
+        },
+        {
+            name: "Dr. Lyn Christie",
+            speciality: "Dentist",
+            experience: 11,
+            ratings: "⭐⭐⭐⭐⭐",
+            image: "src/doc-img3.png" // Replace with actual image path
+        },
+    ];
 
     const handleAppointment = () => {
         const appointmentData = { name, phoneNumber, doctor: selectedDoctor };
@@ -62,10 +56,6 @@ const InstantConsultation = () => {
         setName('');
         setPhoneNumber('');
     };
-
-    useEffect(() => {
-        getDoctorsDetails();
-    }, [getDoctorsDetails]);
 
     return (
         <center>
@@ -92,26 +82,17 @@ const InstantConsultation = () => {
                 </div>
             )}
             <div className="searchpage-container">
-                <FindDoctorSearchIC onSearch={handleSearch} />
+                <FindDoctorSearchIC onSearch={() => {}} />
                 <div className="search-results-container">
-                    {isSearched && (
-                        <center>
-                            <h2>{filteredDoctors.length} doctors are available {searchParams.get('location')}</h2>
-                            <h3>Book appointments with minimum wait-time & verified doctor details</h3>
-                            {filteredDoctors.length > 0 ? (
-                                filteredDoctors.map(doctor => (
-                                    <DoctorCardIC 
-                                        className="doctorcard" 
-                                        {...doctor} 
-                                        key={doctor.name} 
-                                        onAppointment={openModal}
-                                    />
-                                ))
-                            ) : (
-                                <p>No doctors found.</p>
-                            )}
-                        </center>
-                    )}
+                    <h2>{doctorData.length} doctors are available</h2>
+                    <h3>Book appointments with minimum wait-time & verified doctor details</h3>
+                    {doctorData.map(doctor => (
+                        <DoctorCard 
+                            {...doctor} 
+                            key={doctor.name} 
+                            onAppointment={openModal} // Pass the openModal function
+                        />
+                    ))}
                 </div>
             </div>
         </center>
