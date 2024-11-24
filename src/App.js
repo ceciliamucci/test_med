@@ -5,6 +5,7 @@ import LandingPage from './Components/LandingPage/Landing_Page';
 import SignUp from './Components/SignUp/Sign_Up';
 import Login from './Components/Login/Login'; // Asegúrate de tener este componente
 import InstantConsultation from './Components/InstantConsultation/InstantConsultation'; // Import the component
+import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} /> {/* Ruta para el formulario de registro */}
           <Route path="/login" element={<Login />} /> {/* Ruta para el formulario de login */}
           <Route path="/instant-consultation" element={<InstantConsultation />} />
+          <Route path="/finddoctorsearch" element={<FindDoctorSearch />} />
         </Routes>
       </BrowserRouter>
     </div>
