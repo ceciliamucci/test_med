@@ -1,0 +1,101 @@
+.searchpage-container {
+    max-width: 600px;
+    margin: 100px auto;
+    color: #414146;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.doctor-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px 0;
+}
+
+.doctor-info {
+    text-align: center;
+}
+
+.doctor-info h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.doctor-info h3 {
+    font-size: 18px;
+    color: #666;
+}
+
+.ratings {
+    margin: 10px 0;
+}
+
+.appointment-booked {
+    text-align: center;
+    font-size: 20px;
+    color: #28a745;
+    margin: 20px 0;
+}
+
+.cancel-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}
+
+.modal-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    z-index: 1000;
+    text-align: center;
+}
+
+.modal-content {
+    margin-top: 20px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.book-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.book-button:hover {
+    background-color: #0056b3;
+}

@@ -8,12 +8,14 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // Check if the user is already logged in
   useEffect(() => {
     if (sessionStorage.getItem("auth-token")) {
-      navigate("/");
+      navigate("/"); // Redirect to homepage if already logged in
     }
   }, [navigate]);
 
+  // Validate form fields before login
   const validateForm = () => {
     if (!email || !password) {
       setError("Email and password are required.");
@@ -27,6 +29,7 @@ const Login = () => {
     return true;
   };
 
+  // Login function
   const login = async (e) => {
     e.preventDefault();
     if (!validateForm()) return; // Validate before proceeding
@@ -41,13 +44,18 @@ const Login = () => {
         password: password,
       }),
     });
+    
     const json = await res.json();
     if (json.authtoken) {
+      // Store token and email in sessionStorage
       sessionStorage.setItem('auth-token', json.authtoken);
       sessionStorage.setItem('email', email);
+
+      // Navigate to home page after successful login
       navigate('/');
-      window.location.reload();
+      window.location.reload(); // Ensure page reload to reflect navbar changes
     } else {
+      // Show error messages
       if (json.errors) {
         for (const error of json.errors) {
           alert(error.msg);
