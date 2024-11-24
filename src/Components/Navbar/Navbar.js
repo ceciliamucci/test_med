@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'; // Importa el componente Link para la navegación
 import './Navbar.css';
 
 function Navbar() {
-  // Define la función handleClick para manejar el clic en el menú
-  const handleClick = () => {
-    console.log('Navbar icon clicked');
+  const [click, setClick] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+
+  const handleClick = () => setClick(!click);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("auth-token");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("phone");
+    setIsLoggedIn(false);
+    setUsername('');
+    window.location.reload();
   };
+
+  useEffect(() => {
+    const storedEmail = sessionStorage.getItem("email");
+    if (storedEmail) {
+      setIsLoggedIn(true);
+      const extractedUsername = storedEmail.split('@')[0];
+      setUsername(extractedUsername);
+    }
+  }, []);
 
   return (
     <div>
@@ -28,30 +48,35 @@ function Navbar() {
           <span>.</span>
         </div>
         <div className="nav__icon" onClick={handleClick}>
-          <i className="fa fa-times fa fa-bars"></i>
+          <i className={click ? "fa fa-times" : "fa fa-bars"}></i>
         </div>
-        <ul className="nav__links active">
+        <ul className={click ? 'nav__links active' : 'nav__links'}>
           <li className="link">
             <Link to="/landing-page">Home</Link> {/* Cambia href por Link */}
           </li>
-          <li className="link">
-            <button
-              className="btn1"
-              onClick={() => console.log('Appointments clicked')}
-            >
-              Appointments
-            </button>
-          </li>
-          <li className="link">
-            <Link to="/sign-up">
-              <button className="btn1">Sign Up</button>
-            </Link>
-          </li>
-          <li className="link">
-            <Link to="/login">
-              <button className="btn1">Login</button>
-            </Link>
-          </li>
+          {isLoggedIn ? (
+            <>
+              <li className="link">
+                <span style={{ marginRight: '10px' }}>{username}</span>
+                <button className="btn2" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="link">
+                <Link to="/sign-up">
+                  <button className="btn1">Sign Up</button>
+                </Link>
+              </li>
+              <li className="link">
+                <Link to="/login">
+                  <button className="btn1">Login</button>
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </div>
