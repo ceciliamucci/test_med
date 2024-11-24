@@ -1,7 +1,47 @@
-import React from "react";
-import "./Login.css";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 const Login = () => {
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("auth-token")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  const login = async (e) => {
+    e.preventDefault();
+    const res = await fetch(`${API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    const json = await res.json();
+    if (json.authtoken) {
+      sessionStorage.setItem('auth-token', json.authtoken);
+      sessionStorage.setItem('email', email);
+      navigate('/');
+      window.location.reload();
+    } else {
+      if (json.errors) {
+        for (const error of json.errors) {
+          alert(error.msg);
+        }
+      } else {
+        alert(json.error);
+      }
+    }
+  };
+
   return (
     <div className="container">
       <div className="login-grid">
@@ -11,17 +51,19 @@ const Login = () => {
         <div className="login-text">
           Are you a new member?{" "}
           <span>
-            <a href="../Sign_Up/Sign_Up.html" style={{ color: "#2190FF" }}>
+            <Link to="/signup" style={{ color: "#2190FF" }}>
               Sign Up Here
-            </a>
+            </Link>
           </span>
         </div>
         <br />
         <div className="login-form">
-          <form>
+          <form onSubmit={login}>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 name="email"
                 id="email"
@@ -33,6 +75,8 @@ const Login = () => {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 name="password"
                 id="password"
