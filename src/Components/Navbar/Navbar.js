@@ -1,18 +1,18 @@
-import './Navbar.css'; // Importa el archivo CSS
+import React from 'react';
+import { Link } from 'react-router-dom'; // Importa el componente Link para la navegación
+import './Navbar.css';
 
 function Navbar() {
-  // Define the handleClick function
+  // Define la función handleClick para manejar el clic en el menú
   const handleClick = () => {
-    // Logic for handling the click event (e.g., toggle menu)
-    console.log("Navbar icon clicked");
+    console.log('Navbar icon clicked');
   };
 
   return (
     <div>
-      {/* Copia del código HTML convertido a JSX */}
       <nav>
         <div className="nav__logo">
-          <a href="/">
+          <Link to="/"> {/* Usamos Link para la navegación sin recargar la página */}
             StayHealthy 
             <svg xmlns="http://www.w3.org/2000/svg" height="26" width="26" viewBox="0 0 1000 1000" style={{ fill: '#3685fb' }}>
               <title>Doctor With Stethoscope SVG icon</title>
@@ -24,7 +24,7 @@ function Navbar() {
                 </g>
               </g>
             </svg>
-          </a>
+          </Link>
           <span>.</span>
         </div>
         <div className="nav__icon" onClick={handleClick}>
@@ -32,24 +32,28 @@ function Navbar() {
         </div>
         <ul className="nav__links active">
           <li className="link">
-            <a href="../Landing_Page/LandingPage.html">Home</a>
+            <Link to="/landing-page">Home</Link> {/* Cambia href por Link */}
           </li>
           <li className="link">
-            <button className="btn1" onClick={() => console.log("Appointments clicked")}>Appointments</button>
+            <button
+              className="btn1"
+              onClick={() => console.log('Appointments clicked')}
+            >
+              Appointments
+            </button>
           </li>
           <li className="link">
-            <a href="../Sign_Up/Sign_Up.html">
+            <Link to="/sign-up">
               <button className="btn1">Sign Up</button>
-            </a>
+            </Link>
           </li>
           <li className="link">
-            <a href="../Login/Login.html">
+            <Link to="/login">
               <button className="btn1">Login</button>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
-      {/* Fin del código HTML convertido a JSX */}
     </div>
   );
 }
