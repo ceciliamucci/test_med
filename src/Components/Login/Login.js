@@ -5,6 +5,7 @@ import { API_URL } from '../../config';
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,8 +14,23 @@ const Login = () => {
     }
   }, [navigate]);
 
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Email and password are required.");
+      return false;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setError("Email is not valid.");
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
   const login = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return; // Validate before proceeding
+
     const res = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
@@ -71,6 +87,7 @@ const Login = () => {
                 placeholder="Enter your email"
                 aria-describedby="helpId"
               />
+              {error && <div className="err" style={{ color: 'red' }}>{error}</div>}
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>

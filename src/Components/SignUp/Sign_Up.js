@@ -13,14 +13,36 @@ const SignUp = () => {
 
   const handlePhoneChange = (e) => {
     const value = e.target.value;
-    // Validar que solo sean dígitos y máximo 10 caracteres
     if (/^\d{0,10}$/.test(value)) {
       setPhone(value);
     }
   };
 
+  const validateForm = () => {
+    if (!name || !email || !phone || !password) {
+      setShowerr("All fields are required.");
+      return false;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setShowerr("Email is not valid.");
+      return false;
+    }
+    if (phone.length !== 10) {
+      setShowerr("Phone number must be 10 digits.");
+      return false;
+    }
+    if (password.length < 6) {
+      setShowerr("Password must be at least 6 characters long.");
+      return false;
+    }
+    setShowerr('');
+    return true;
+  };
+
   const register = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return; // Validate before proceeding
+
     const response = await fetch(`${API_URL}/api/auth/register`, {
       method: "POST",
       headers: {
