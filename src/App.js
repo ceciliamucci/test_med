@@ -10,7 +10,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-            <Route path="Landing_Page" element={<Landing_Page/>}/>
+            <Route path="/" element={<Landing_Page/>}/>
         </Routes>
       </BrowserRouter>
     </div>
