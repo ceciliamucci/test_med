@@ -46,7 +46,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, image, availability
     };
 
     const handleCancelAppointment = (appointmentId) => {
-        setBookedAppointments(prev => 
+        setBookedAppointments(prev =>
             prev.filter(appointment => appointment.id !== appointmentId)
         );
     };
@@ -74,7 +74,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, image, availability
 
             {!showAppointmentForm ? (
                 <div className="doctor-card-options-container">
-                    <button 
+                    <button
                         className="book-appointment-btn"
                         onClick={() => setShowAppointmentForm(true)}
                     >
@@ -134,8 +134,8 @@ const DoctorCard = ({ name, speciality, experience, ratings, image, availability
                         </div>
                         <div className="form-buttons">
                             <button type="submit" className="book-now-btn">Book Now</button>
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 className="cancel-btn"
                                 onClick={() => setShowAppointmentForm(false)}
                             >
@@ -153,7 +153,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, image, availability
                         <div key={appointment.id} className="appointment-item">
                             <p>Date: {appointment.date}</p>
                             <p>Time: {appointment.timeSlot}</p>
-                            <button 
+                            <button
                                 onClick={() => handleCancelAppointment(appointment.id)}
                                 className="cancel-appointment-btn"
                             >

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './AppointmentForm.css';
 
 const AppointmentForm = ({ doctorName, onSubmit }) => {
+    const [isFormVisible, setIsFormVisible] = useState(false);
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [date, setDate] = useState('');
@@ -27,6 +28,7 @@ const AppointmentForm = ({ doctorName, onSubmit }) => {
             <div className="doctor-header">
                 <h2>{doctorName}</h2>
                 <p className="specialty">Dentist</p>
+                <button className="book-appointment-btn" onClick={showForm}>Book Appointment</button>
                 <p className="experience">24 years experience</p>
                 <div className="ratings">
                     {'★★★★☆'}
@@ -87,7 +89,8 @@ const AppointmentForm = ({ doctorName, onSubmit }) => {
                 <button type="submit" className="book-now-btn">Book Now</button>
             </form>
         </div>
-    );
-};
+    )
+}
 
+}
 export default AppointmentForm;

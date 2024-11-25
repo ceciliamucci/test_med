@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar() {
+    const isLoggedIn = false; // Update with actual authentication logic
+
     return (
         <div>
             <nav>
@@ -11,13 +13,20 @@ function Navbar() {
                 </div>
                 <ul className="nav__links active">
                     <li className="link">
-                        <Link to="/landing-page">Home</Link>
+                        <Link to="/landingpage">Home</Link>
                     </li>
                     <li className="link">
                         <Link to="/instant-consultation">
                             <button className="btn1">Instant Consultation</button>
                         </Link>
                     </li>
+                    {isLoggedIn && (
+                        <li className="link">
+                            <Link to="/appointments">
+                                <button className="btn1">Appointments</button>
+                            </Link>
+                        </li>
+                    )}
                     <li className="link">
                         <Link to="/sign-up">
                             <button className="btn1">Sign Up</button>
