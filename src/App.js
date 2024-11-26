@@ -9,6 +9,9 @@ import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
 import BookingConsultation from './Components/BookingConsultation'; // Import the new BookingConsultation component
 import Notification from './Components/Notification/Notification';
 import Confirmation from './Components/Confirmation/Confirmation';
+import ReviewForm from './Components/ReviewForm/ReviewForm';
+
+
 import './App.css';
 
 function App() {
@@ -27,6 +30,7 @@ function App() {
                     <Route path="/booking-consultation" element={<BookingConsultation />} /> {/* Ruta para BookingConsultation */}
                     <Route path="/notification" element={<Notification />} />
                     <Route path="/confirmation" element={<Confirmation />} />
+                    <Route path="/reviewform" element={<ReviewForm />} />
                 </Routes>
             </BrowserRouter>
         </div>

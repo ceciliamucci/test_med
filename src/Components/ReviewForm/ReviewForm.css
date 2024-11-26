@@ -1,0 +1,31 @@
+.review-form {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .review-form th,
+  .review-form td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .review-form th {
+    background-color: #f2f2f2;
+  }
+  
+  .feedback-link,
+  .review-link {
+    color: #007bff;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .feedback-link:hover,
+  .review-link:hover {
+    text-decoration: none;
+  }
