@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import './InstantConsultation.css';
 import { useNavigate } from 'react-router-dom';
 import FindDoctorSearchIC from '../FindDoctorSearchIC/FindDoctorSearchIC';
 import DoctorCard from '../DoctorCard/DoctorCard';
+import Notification from '../Notification/Notification';
 
-// Move doctorData outside the component since it's static
+// Static data for doctors
 const doctorData = [
     {
         id: 1,
@@ -36,54 +37,47 @@ const doctorData = [
 ];
 
 const InstantConsultation = () => {
-    const [doctors, setDoctors] = useState([]);
+    const [doctors, setDoctors] = useState(doctorData);
     const [appointments, setAppointments] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
+    const [currentAppointment, setCurrentAppointment] = useState(null);
     const navigate = useNavigate();
-
-    // Initialize doctors data
-    useEffect(() => {
-        setDoctors(doctorData);
-    }, []); // No dependencies needed since doctorData is now static
 
     // Search functionality
     const handleSearch = useCallback((searchTerm) => {
-        if (!searchTerm.trim()) {
-            setDoctors(doctorData);
-            return;
-        }
-
-        const filteredDoctors = doctorData.filter(doctor => 
+        setDoctors(doctorData.filter(doctor =>
             doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             doctor.speciality.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setDoctors(filteredDoctors);
-    }, []); // No dependencies needed since doctorData is now static
+        ));
+    }, []);
 
     const handleAppointment = () => {
-        if (!name.trim() || !phoneNumber.trim()) {
+        if (!name.trim() || !phoneNumber.trim() || !selectedDoctor) {
             alert('Please fill in all fields');
             return;
         }
 
         const appointmentData = {
             id: Date.now(),
-            name,
-            phoneNumber,
             doctor: selectedDoctor,
+            phoneNumber,
             date: new Date().toISOString(),
-            status: 'Pending'
+            status: 'Pending',
         };
 
         setAppointments(prevAppointments => [...prevAppointments, appointmentData]);
-        navigate('/confirmation', { 
-            state: { 
+        setCurrentAppointment(appointmentData);
+        setShowNotification(true);
+
+        navigate('/confirmation', {
+            state: {
                 appointment: appointmentData,
-                message: `Appointment booked successfully with ${selectedDoctor.name}`
-            }
+                message: `Appointment booked successfully with ${selectedDoctor.name}`,
+            },
         });
         closeModal();
     };
@@ -107,6 +101,9 @@ const InstantConsultation = () => {
 
     return (
         <center>
+            {showNotification && currentAppointment && (
+                <Notification appointment={currentAppointment} isCancelled={false} />
+            )}
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-container">
@@ -117,20 +114,20 @@ const InstantConsultation = () => {
                         <div className="modal-content">
                             <div className="form-group">
                                 <label>Name:</label>
-                                <input 
-                                    type="text" 
-                                    className="input-field" 
-                                    value={name} 
+                                <input
+                                    type="text"
+                                    className="input-field"
+                                    value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     placeholder="Enter your name"
                                 />
                             </div>
                             <div className="form-group">
                                 <label>Phone Number:</label>
-                                <input 
-                                    type="tel" 
-                                    className="input-field" 
-                                    value={phoneNumber} 
+                                <input
+                                    type="tel"
+                                    className="input-field"
+                                    value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}
                                     placeholder="Enter your phone number"
                                 />
@@ -151,9 +148,9 @@ const InstantConsultation = () => {
                     <h2>{doctors.length} doctors are available</h2>
                     <h3>Book appointments with minimum wait-time & verified doctor details</h3>
                     {doctors.map(doctor => (
-                        <DoctorCard 
+                        <DoctorCard
                             key={doctor.id}
-                            {...doctor} 
+                            {...doctor}
                             onAppointment={() => openModal(doctor)}
                             appointments={getAvailableAppointments(doctor.id)}
                         />

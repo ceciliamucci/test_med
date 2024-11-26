@@ -7,6 +7,8 @@ import Login from './Components/Login/Login'; // Asegúrate de tener este compon
 import InstantConsultation from './Components/InstantConsultation/InstantConsultation'; // Import the component
 import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
 import BookingConsultation from './Components/BookingConsultation'; // Import the new BookingConsultation component
+import Notification from './Components/Notification/Notification';
+import Confirmation from './Components/Confirmation/Confirmation';
 import './App.css';
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
                     <Route path="/instant-consultation" element={<InstantConsultation />} />
                     <Route path="/finddoctorsearch" element={<FindDoctorSearch />} />
                     <Route path="/booking-consultation" element={<BookingConsultation />} /> {/* Ruta para BookingConsultation */}
+                    <Route path="/notification" element={<Notification />} />
+                    <Route path="/confirmation" element={<Confirmation />} />
                 </Routes>
             </BrowserRouter>
         </div>
