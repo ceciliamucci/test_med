@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import ProfileCard from '../ProfileCard/ProfileCard';
 
 function Navbar({ appointments }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = !!sessionStorage.getItem("auth-token"); // Check if user is logged in
   const navigate = useNavigate();
+  const [showProfileCard, setShowProfileCard] = useState(false);
+  const user = {
+    name: sessionStorage.getItem('email'), // Assuming email is the user's name
+    email: sessionStorage.getItem('email'),
+    joinedDate: '2023-01-01' // Replace with actual joined date
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -41,16 +48,19 @@ function Navbar({ appointments }) {
           </Link>
         </li>
         {isLoggedIn ? (
-          <li className="link">
+          <li className="link welcome-user" onClick={() => setShowProfileCard(!showProfileCard)}>
             <span>{sessionStorage.getItem('email')}</span>
-            <Link to="/profile">
-              <button className="btn1 btn-short">Profile</button>
-            </Link>
+            <button className="btn1 btn-short">Profile</button>
             <button className="btn1 btn-short" onClick={() => {
               sessionStorage.removeItem('auth-token');
               sessionStorage.removeItem('email');
               navigate('/login'); // Redirect to login
             }}>Logout</button>
+            {showProfileCard && (
+              <div className="dropdown-menu">
+                <ProfileCard user={user} />
+              </div>
+            )}
           </li>
         ) : (
           <li className="link">

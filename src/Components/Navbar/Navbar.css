@@ -184,3 +184,17 @@ nav {
   .btn-short {
     width: 100px; /* Set a fixed width for shorter buttons */
   }
+  
+  /* Add this to the existing CSS */
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    display: block; /* Change to block for visibility */
+    min-width: 200px; /* Adjust width as needed */
+    padding: 8px 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
