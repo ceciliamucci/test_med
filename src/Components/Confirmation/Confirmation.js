@@ -6,10 +6,10 @@ const Confirmation = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const { appointment = {} } = state || {};
-    const { doctor = { name: '', speciality: '' }, phoneNumber = '', date = '' } = appointment;
+    const { doctor = { name: '', speciality: '' }, phoneNumber = '', date = '', timeSlot = '' } = appointment;
 
     const handleOkay = () => {
-        navigate('/');
+        navigate('/appointments', { state: { appointment } }); // Pass the appointment data back to Appointments
     };
 
     return (
@@ -22,6 +22,7 @@ const Confirmation = () => {
                 <div><strong>Specialty:</strong> {doctor.speciality}</div>
                 <div><strong>Phone number:</strong> {phoneNumber}</div>
                 <div><strong>Date:</strong> {new Date(date).toLocaleString()}</div>
+                <div><strong>Time:</strong> {timeSlot}</div>
             </div>
             <button className="okay-button" onClick={handleOkay}>Okay</button>
         </div>

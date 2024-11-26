@@ -33,7 +33,7 @@ function App() {
                     <Route path="/notification" element={<Notification />} />
                     <Route path="/confirmation" element={<Confirmation />} />
                     <Route path="/reviewform" element={<ReviewForm />} />
-                    <Route path="/appointments" element={<Appointments appointments={appointments} />} />
+                    <Route path="/appointments" element={<Appointments appointments={appointments} setAppointments={setAppointments} />} />
                 </Routes>
             </BrowserRouter>
         </div>
@@ -41,5 +41,3 @@ function App() {
 }
 
 export default App;
-
-

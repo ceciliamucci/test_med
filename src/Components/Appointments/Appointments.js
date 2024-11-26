@@ -2,19 +2,19 @@ import React from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './Appointments.css';
 
-const Appointments = ({ appointments }) => {
+const Appointments = ({ appointments, setAppointments }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const isLoggedIn = !!sessionStorage.getItem("auth-token");
 
     // Get appointment data from location state if available
     const { state } = location;
-    const newAppointment = state?.appointment;
+    const newAppointment = state?.appointment; // Get the appointment data
 
     return (
         <div className="appointments-container">
             {/* Display new appointment if available */}
-            {newAppointment && (
+            {newAppointment && newAppointment.doctor && (
                 <div className="appointment-card">
                     <h2>New Appointment Booked!</h2>
                     <p>Doctor: {newAppointment.doctor.name}</p>
@@ -60,8 +60,6 @@ const Appointments = ({ appointments }) => {
 
     function handleCancelAppointment(appointmentId) {
         // Logic to cancel the appointment
-        // This could involve updating the state in the parent component
-        // or making an API call to remove the appointment
         setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment.id !== appointmentId));
     }
 };

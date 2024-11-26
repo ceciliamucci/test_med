@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import './ReviewForm.css';
 
-const ReviewForm = ({ doctors = [] }) => {
-  const [ratings, setRatings] = useState(Array(doctors.length).fill(0));
-  const [showReviewForm, setShowReviewForm] = useState(false);
-  const [formData, setFormData] = useState({ name: '', review: '', rating: 0 });
-  const isLoggedIn = !!sessionStorage.getItem("auth-token"); // Check if user is logged in
+const ReviewForm = () => {
+  const [ratings, setRatings] = useState([0, 0]); // State to hold ratings for each doctor
+  const [showReviewForm, setShowReviewForm] = useState(false); // State to control the visibility of the review form
+  const [formData, setFormData] = useState({ name: '', review: '', rating: 0 }); // State for form data
 
   const handleRating = (index, rating) => {
     const newRatings = [...ratings];
@@ -13,11 +12,7 @@ const ReviewForm = ({ doctors = [] }) => {
     setRatings(newRatings);
   };
 
-  const handleReviewButtonClick = (index) => {
-    if (!isLoggedIn) {
-      alert('You must be logged in to leave a review.');
-      return;
-    }
+  const handleReviewButtonClick = () => {
     setShowReviewForm(true);
   };
 
@@ -27,10 +22,10 @@ const ReviewForm = ({ doctors = [] }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const doctorIndex = formData.rating === 1 ? 0 : 1; // Adjust this logic as needed
+    const doctorIndex = formData.rating === 1 ? 0 : 1; // Assuming the first doctor is rated with 1 star
     handleRating(doctorIndex, formData.rating);
-    setShowReviewForm(false);
-    setFormData({ name: '', review: '', rating: 0 });
+    setShowReviewForm(false); // Hide the review form after submission
+    setFormData({ name: '', review: '', rating: 0 }); // Reset form data
   };
 
   return (
@@ -47,13 +42,16 @@ const ReviewForm = ({ doctors = [] }) => {
           </tr>
         </thead>
         <tbody>
-          {doctors.map((doctor, index) => (
-            <tr key={doctor.id}>
+          {[
+            { name: 'Dr. John Doe', specialty: 'Cardiology' },
+            { name: 'Dr. Jane Smith', specialty: 'Dermatology' },
+          ].map((doctor, index) => (
+            <tr key={index}>
               <td>{index + 1}</td>
               <td>{doctor.name}</td>
-              <td>{doctor.speciality}</td>
+              <td>{doctor.specialty}</td>
               <td>
-                <button className="feedback-link" onClick={() => handleReviewButtonClick(index)}>Leave Review</button>
+                <button className="feedback-link" onClick={handleReviewButtonClick}>Leave Review</button>
               </td>
               <td>
                 <div className="star-rating">
@@ -72,8 +70,10 @@ const ReviewForm = ({ doctors = [] }) => {
         </tbody>
       </table>
 
+      {/* Overlay for the review form */}
       {showReviewForm && <div className="overlay" onClick={() => setShowReviewForm(false)}></div>}
 
+      {/* Review Form */}
       {showReviewForm && (
         <div className="review-form-container">
           <h2>Give Your Review</h2>

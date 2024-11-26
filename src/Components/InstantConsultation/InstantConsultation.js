@@ -75,13 +75,10 @@ const InstantConsultation = ({ setAppointments }) => {
             doctor: selectedDoctor,
             phoneNumber,
             date: new Date().toISOString(),
-            status: 'Pending',
+            timeSlot: selectedDoctor.availability[0], // Assuming you want to set the first available time slot
         };
 
         setAppointments(prevAppointments => [...prevAppointments, appointmentData]);
-        setCurrentAppointment(appointmentData);
-        setShowNotification(true);
-
         navigate('/appointments', { state: { appointment: appointmentData } });
     };
 
