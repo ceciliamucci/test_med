@@ -11,6 +11,8 @@ import Notification from './Components/Notification/Notification';
 import Confirmation from './Components/Confirmation/Confirmation';
 import ReviewForm from './Components/ReviewForm/ReviewForm';
 import Appointments from './Components/Appointments/Appointments';
+import ReportsLayout from './Components/ReportsLayout/ReportsLayout'; // Import the ReportsLayout component
+import ProfileCard from './Components/ProfileCard/ProfileCard'; // Import the ProfileCard component
 
 import './App.css';
 
@@ -34,6 +36,8 @@ function App() {
                     <Route path="/confirmation" element={<Confirmation />} />
                     <Route path="/reviewform" element={<ReviewForm />} />
                     <Route path="/appointments" element={<Appointments appointments={appointments} setAppointments={setAppointments} />} />
+                    <Route path="/reports" element={<ReportsLayout />} /> {/* Route for Reports */}
+                    <Route path="/profile" element={<ProfileCard />} /> {/* Route for Profile */}
                 </Routes>
             </BrowserRouter>
         </div>
