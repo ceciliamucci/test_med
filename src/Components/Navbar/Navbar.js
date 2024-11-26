@@ -22,7 +22,7 @@ function Navbar() {
       </div>
       <ul className={`nav__links ${isMenuOpen ? 'active' : ''}`}>
         <li className="link">
-          <Link to="/landingpage">Home</Link>
+          <Link to="/landing-page">Home</Link>
         </li>
         <li className="link">
           <Link to="/instant-consultation">
@@ -30,7 +30,7 @@ function Navbar() {
           </Link>
         </li>
         <li className="link">
-          <Link to="/reviews">
+          <Link to="/reviewform">
             <button className="btn1">Reviews</button>
           </Link>
         </li>
