@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
-function Navbar() {
+function Navbar({ appointments }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLoggedIn = false; // Update with actual authentication logic
+  const isLoggedIn = !!sessionStorage.getItem("auth-token"); // Check if user is logged in
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -34,23 +35,37 @@ function Navbar() {
             <button className="btn1">Reviews</button>
           </Link>
         </li>
-        {isLoggedIn && (
+        <li className="link">
+          <Link to="/appointments">
+            <button className="btn1">Appointments</button>
+          </Link>
+        </li>
+        {isLoggedIn ? (
           <li className="link">
-            <Link to="/appointments">
-              <button className="btn1">Appointments</button>
+            <span>{sessionStorage.getItem('email')}</span>
+            <Link to="/profile">
+              <button className="btn1 btn-short">Profile</button>
+            </Link>
+            <button className="btn1 btn-short" onClick={() => {
+              sessionStorage.removeItem('auth-token');
+              sessionStorage.removeItem('email');
+              navigate('/login'); // Redirect to login
+            }}>Logout</button>
+          </li>
+        ) : (
+          <li className="link">
+            <Link to="/sign-up">
+              <button className="btn1">Sign Up</button>
             </Link>
           </li>
         )}
-        <li className="link">
-          <Link to="/sign-up">
-            <button className="btn1">Sign Up</button>
-          </Link>
-        </li>
-        <li className="link">
-          <Link to="/login">
-            <button className="btn1">Login</button>
-          </Link>
-        </li>
+        {!isLoggedIn && (
+          <li className="link">
+            <Link to="/login">
+              <button className="btn1">Login</button>
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

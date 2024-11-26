@@ -180,3 +180,7 @@ nav {
     background-color: #3685fb; /* Hover effect */
     color: white; /* Hover effect */
   }
+  
+  .btn-short {
+    width: 100px; /* Set a fixed width for shorter buttons */
+  }

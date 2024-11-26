@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import FindDoctorSearchIC from '../FindDoctorSearchIC/FindDoctorSearchIC';
 import DoctorCard from '../DoctorCard/DoctorCard';
 import Notification from '../Notification/Notification';
+import { generateDoctors } from '../../utils/generateDoctors';
 
-// Static data for doctors
-const doctorData = [
+// Existing static data for doctors
+const existingDoctorData = [
     {
         id: 1,
         name: "Dr. Jiao Yang",
@@ -36,9 +37,11 @@ const doctorData = [
     },
 ];
 
-const InstantConsultation = () => {
-    const [doctors, setDoctors] = useState(doctorData);
-    const [appointments, setAppointments] = useState([]);
+// Generate additional random doctors
+const randomDoctors = generateDoctors(5);
+
+const InstantConsultation = ({ setAppointments }) => {
+    const [doctors, setDoctors] = useState([...existingDoctorData, ...randomDoctors]);
     const [showModal, setShowModal] = useState(false);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [name, setName] = useState('');
@@ -46,16 +49,22 @@ const InstantConsultation = () => {
     const [showNotification, setShowNotification] = useState(false);
     const [currentAppointment, setCurrentAppointment] = useState(null);
     const navigate = useNavigate();
+    const isLoggedIn = !!sessionStorage.getItem("auth-token"); // Check if user is logged in
 
     // Search functionality
     const handleSearch = useCallback((searchTerm) => {
-        setDoctors(doctorData.filter(doctor =>
+        setDoctors([...existingDoctorData, ...randomDoctors].filter(doctor =>
             doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             doctor.speciality.toLowerCase().includes(searchTerm.toLowerCase())
         ));
     }, []);
 
     const handleAppointment = () => {
+        if (!isLoggedIn) {
+            alert('You must be logged in to book an appointment.');
+            return;
+        }
+
         if (!name.trim() || !phoneNumber.trim() || !selectedDoctor) {
             alert('Please fill in all fields');
             return;
@@ -73,13 +82,7 @@ const InstantConsultation = () => {
         setCurrentAppointment(appointmentData);
         setShowNotification(true);
 
-        navigate('/confirmation', {
-            state: {
-                appointment: appointmentData,
-                message: `Appointment booked successfully with ${selectedDoctor.name}`,
-            },
-        });
-        closeModal();
+        navigate('/appointments', { state: { appointment: appointmentData } });
     };
 
     const openModal = (doctor) => {
@@ -94,13 +97,14 @@ const InstantConsultation = () => {
         setPhoneNumber('');
     };
 
-    // Get available appointments
-    const getAvailableAppointments = useCallback((doctorId) => {
-        return appointments.filter(apt => apt.doctor.id === doctorId);
-    }, [appointments]);
-
     return (
         <center>
+            {!isLoggedIn && (
+                <div className="login-prompt">
+                    <h3>Please log in to see the contents of this page.</h3>
+                    <button onClick={() => navigate('/login')}>Log In</button>
+                </div>
+            )}
             {showNotification && currentAppointment && (
                 <Notification appointment={currentAppointment} isCancelled={false} />
             )}
@@ -152,11 +156,13 @@ const InstantConsultation = () => {
                             key={doctor.id}
                             {...doctor}
                             onAppointment={() => openModal(doctor)}
-                            appointments={getAvailableAppointments(doctor.id)}
                         />
                     ))}
                 </div>
             </div>
+            <button onClick={() => navigate('/give-reviews', { state: { doctors } })}>
+                Give Reviews
+            </button>
         </center>
     );
 }
