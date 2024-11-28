@@ -185,7 +185,7 @@ nav {
     width: 100px; /* Set a fixed width for shorter buttons */
   }
   
-  /* Add this to the existing CSS */
+ 
   .dropdown-menu {
     position: absolute;
     top: 100%;

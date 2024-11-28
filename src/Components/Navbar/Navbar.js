@@ -33,7 +33,7 @@ function Navbar({ appointments }) {
                     </Link>
                 </li>
                 <li className="link">
-                    <Link to="/reviewform">
+                    <Link to="/review-form">
                         <button className="btn1">Reviews</button>
                     </Link>
                 </li>
